@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,11 @@ public class TicketController {
 	public @ResponseBody Iterable<Ticket> getAllTicket() {
 		// This returns a JSON or XML with the users
 		return ticketRepository.findAll();
+	}
+
+	@GetMapping(path = "/{id}")
+	public @ResponseBody Ticket getTicket(@PathVariable Integer id) {
+		return ticketRepository.findById(id).get();
 	}
 
 	@PutMapping(path = "/update")

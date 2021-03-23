@@ -1,25 +1,29 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  FolderOpenOutlined
-} from '@ant-design/icons'
+import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Card } from 'antd'
 import { Ticket } from 'models'
 import moment from 'moment-timezone'
 
+interface TicketCardProps extends Ticket {
+  onClick?: (id: number) => void
+}
+
 export const TicketCard = ({
+  id,
+  dateCreated,
+  dateUpdated,
   title = '',
   author = '',
-  dateCreated,
-  dateUpdated
-}: Ticket) => (
+  onClick = () => {}
+}: TicketCardProps) => (
   <Card
+    hoverable
     style={{ width: 300 }}
     actions={[
-      <FolderOpenOutlined key="open" />,
+      <CheckOutlined key="done" />,
       <EditOutlined key="edit" />,
       <DeleteOutlined key="delete" />
     ]}
+    onClick={() => onClick(id)}
   >
     <Card.Meta title={author} description={title} />
     <br />

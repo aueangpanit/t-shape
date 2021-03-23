@@ -40,6 +40,7 @@ function App() {
             <Route
               key={i}
               path={route.path}
+              exact
               component={() => <div>{route.component()}</div>}
             />
           ))}
