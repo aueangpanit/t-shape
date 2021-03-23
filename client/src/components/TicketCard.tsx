@@ -25,7 +25,7 @@ export const TicketCard = ({
     ]}
     onClick={() => onClick(id)}
   >
-    <Card.Meta title={author} description={title} />
+    <Card.Meta title={title} description={author} />
     <br />
     Created: {moment(dateCreated).calendar()}
     <br />

@@ -1,6 +1,6 @@
 export enum TicketStatus {
-  open = 'OPEN',
-  done = 'DONE'
+  Open = 'OPEN',
+  Done = 'DONE'
 }
 
 export interface Ticket {

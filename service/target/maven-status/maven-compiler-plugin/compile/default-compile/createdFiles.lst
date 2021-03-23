@@ -1,4 +1,9 @@
+com\barclays\ticketer\utils\ResponseConstants.class
+com\barclays\ticketer\models\Ticket.class
+com\barclays\ticketer\utils\ResponseConstants$Status.class
+com\barclays\ticketer\models\TicketForm.class
 com\barclays\ticketer\TicketerApplication.class
-com\barclays\ticketer\Ticket.class
+com\barclays\ticketer\utils\TicketConstants$Status.class
+com\barclays\ticketer\utils\TicketConstants.class
 com\barclays\ticketer\TicketController.class
 com\barclays\ticketer\TicketRepository.class
