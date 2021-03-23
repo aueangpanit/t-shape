@@ -1,12 +1,12 @@
-package com.example.accessingdatamysql;
+package com.barclays.ticketer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AccessingDataMysqlApplication {
+public class TicketerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AccessingDataMysqlApplication.class, args);
+		SpringApplication.run(TicketerApplication.class, args);
 	}
 }

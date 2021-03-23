@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { fetchTickets } from 'actions'
+import { Base } from 'components'
+import { CreateTicket, Home, Ticket } from 'pages'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
+
+const routes = [
+  {
+    path: '/',
+    component: Home
+  },
+  {
+    path: '/createTicket',
+    component: CreateTicket
+  },
+  {
+    path: '/editTicket',
+    component: CreateTicket
+  },
+  {
+    path: '/ticket/:id',
+    component: Ticket
+  }
+]
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTickets())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Base>
+      <Route>
+        <Switch>
+          {routes.map((route, i) => (
+            <Route
+              key={i}
+              path={route.path}
+              component={() => <div>{route.component()}</div>}
+            />
+          ))}
+        </Switch>
+      </Route>
+    </Base>
+  )
 }
 
-export default App;
+export default App

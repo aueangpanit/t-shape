@@ -1,4 +1,4 @@
-com\example\accessingdatamysql\User.class
-com\example\accessingdatamysql\AccessingDataMysqlApplication.class
-com\example\accessingdatamysql\MainController.class
-com\example\accessingdatamysql\UserRepository.class
+com\barclays\ticketer\TicketerApplication.class
+com\barclays\ticketer\Ticket.class
+com\barclays\ticketer\TicketController.class
+com\barclays\ticketer\TicketRepository.class
