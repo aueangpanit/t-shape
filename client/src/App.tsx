@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: AppRoute.EditTicket,
-    component: EditTicket
+    component: ({ location }: any) => EditTicket(location.state)
   },
   {
     path: `${AppRoute.Ticket}/:id`,
@@ -42,7 +42,7 @@ function App() {
               key={i}
               path={route.path}
               exact
-              component={() => <div>{route.component()}</div>}
+              component={route.component}
             />
           ))}
         </Switch>

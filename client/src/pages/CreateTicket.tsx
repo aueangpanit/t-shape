@@ -29,14 +29,12 @@ export const CreateTicket = () => {
   })
 
   return (
-    <>
-      <PageHeader
-        ghost={false}
-        onBack={() => window.history.back()}
-        title={title}
-      >
-        <TicketForm loading={loading} onFinish={onFinish} />
-      </PageHeader>
-    </>
+    <PageHeader
+      ghost={false}
+      onBack={() => window.history.back()}
+      title={title}
+    >
+      <TicketForm loading={loading} onFinish={onFinish} />
+    </PageHeader>
   )
 }

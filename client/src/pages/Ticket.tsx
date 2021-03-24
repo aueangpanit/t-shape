@@ -3,8 +3,8 @@ import axios from 'axios'
 import { Ticket as TicketModel } from 'models'
 import moment from 'moment-timezone'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { ServiceUrl } from 'utils'
+import { useHistory, useParams } from 'react-router-dom'
+import { AppRoute, dontPropagateClick, ServiceUrl } from 'utils'
 
 export const doneButtonText = 'Done'
 export const editButtonText = 'Edit'
@@ -15,6 +15,7 @@ export const dateCreatedLabel = 'Date Created'
 export const lastUpdatedLabel = 'Last Updated'
 
 export const Ticket = () => {
+  const history = useHistory()
   const { id }: { id: string } = useParams()
   const [ticket, setTicket] = useState<TicketModel | null>(null)
 
@@ -40,7 +41,14 @@ export const Ticket = () => {
         <Button key="1" type="primary">
           {doneButtonText}
         </Button>,
-        <Button key="2">{editButtonText}</Button>,
+        <Button
+          key="2"
+          onClick={dontPropagateClick(() =>
+            history.push({ pathname: AppRoute.EditTicket, state: ticket })
+          )}
+        >
+          {editButtonText}
+        </Button>,
         <Button key="3">{deleteButtonText}</Button>
       ]}
     >

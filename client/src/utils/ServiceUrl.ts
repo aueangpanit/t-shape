@@ -3,7 +3,8 @@ const serviceBaseUrl = process.env.REACT_APP_SERVICE_URL
 const urls = {
   GetAllTickets: '/ticket/all',
   GetTicket: '/ticket',
-  CreateTicket: '/ticket/create'
+  CreateTicket: '/ticket/create',
+  UpdateTicket: '/ticket/update'
 }
 
 const getServiceUrl = () => {
