@@ -1,5 +1,6 @@
 import { Button, Descriptions, PageHeader } from 'antd'
 import axios from 'axios'
+import { useDeleteTicket } from 'hooks'
 import { Ticket as TicketModel } from 'models'
 import moment from 'moment-timezone'
 import { useEffect, useState } from 'react'
@@ -17,6 +18,9 @@ export const lastUpdatedLabel = 'Last Updated'
 export const Ticket = () => {
   const history = useHistory()
   const { id }: { id: string } = useParams()
+
+  const [deleteTicket, deleteTicketLoading] = useDeleteTicket(Number(id))
+
   const [ticket, setTicket] = useState<TicketModel | null>(null)
 
   const fetchTicket = async (id: string) => {
@@ -49,7 +53,9 @@ export const Ticket = () => {
         >
           {editButtonText}
         </Button>,
-        <Button key="3">{deleteButtonText}</Button>
+        <Button key="3" onClick={deleteTicket} loading={deleteTicketLoading}>
+          {deleteButtonText}
+        </Button>
       ]}
     >
       <Descriptions bordered column={1}>

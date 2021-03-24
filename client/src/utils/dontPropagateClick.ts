@@ -1,6 +1,6 @@
-export const dontPropagateClick = (fn: () => void) => (
-  e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-) => {
+export const dontPropagateClick = (
+  fn: (params?: any) => Promise<void> | void
+) => async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
   e.stopPropagation()
-  fn()
+  await fn()
 }

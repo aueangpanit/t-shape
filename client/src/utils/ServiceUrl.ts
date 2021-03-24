@@ -4,7 +4,8 @@ const urls = {
   GetAllTickets: '/ticket/all',
   GetTicket: '/ticket',
   CreateTicket: '/ticket/create',
-  UpdateTicket: '/ticket/update'
+  UpdateTicket: '/ticket/update',
+  DeleteTicket: '/ticket/delete'
 }
 
 const getServiceUrl = () => {
