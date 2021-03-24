@@ -1,25 +1,26 @@
 import { fetchTickets } from 'actions'
 import { Base } from 'components'
-import { CreateTicket, Home, Ticket } from 'pages'
+import { CreateTicket, EditTicket, Home, Ticket } from 'pages'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+import { AppRoute } from 'utils'
 
 const routes = [
   {
-    path: '/',
+    path: AppRoute.Home,
     component: Home
   },
   {
-    path: '/createTicket',
+    path: AppRoute.CreateTicket,
     component: CreateTicket
   },
   {
-    path: '/editTicket',
-    component: CreateTicket
+    path: AppRoute.EditTicket,
+    component: ({ location }: any) => EditTicket(location.state)
   },
   {
-    path: '/ticket/:id',
+    path: `${AppRoute.Ticket}/:id`,
     component: Ticket
   }
 ]
@@ -41,7 +42,7 @@ function App() {
               key={i}
               path={route.path}
               exact
-              component={() => <div>{route.component()}</div>}
+              component={route.component}
             />
           ))}
         </Switch>

@@ -1,4 +1,4 @@
-export * from './CreateTicket'
-export * from './EditTicket'
-export * from './Home'
-export * from './Ticket'
+export { CreateTicket } from './CreateTicket'
+export { EditTicket } from './EditTicket'
+export { Home } from './Home'
+export { Ticket } from './Ticket'
