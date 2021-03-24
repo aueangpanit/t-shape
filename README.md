@@ -16,7 +16,7 @@ docker exec -it [NAME] bash
 mysql -uroot -proot
 ```
 
-## ERD
+## Entity Relationship Diagram
 
 ![ERD](https://i.imgur.com/dTdKfT1.png)
 
