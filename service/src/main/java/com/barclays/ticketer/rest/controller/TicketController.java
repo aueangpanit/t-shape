@@ -1,10 +1,8 @@
 package com.barclays.ticketer.rest.controller;
 
-import java.util.Date;
-
 import com.barclays.ticketer.persistence.domain.Ticket;
-import com.barclays.ticketer.persistence.repository.TicketRepository;
 import com.barclays.ticketer.rest.request.TicketForm;
+import com.barclays.ticketer.service.TicketService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,53 +21,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @CrossOrigin(origins = "*")
 public class TicketController {
 	@Autowired
-	private TicketRepository ticketRepository;
+	TicketService ticketService;
 
 	@GetMapping(path = "/all")
 	public @ResponseBody Iterable<Ticket> getAllTicket() {
-		return ticketRepository.findAll();
+		return ticketService.getAllTicket();
 	}
 
 	@GetMapping(path = "/{id}")
 	public @ResponseBody Ticket getTicket(@PathVariable Integer id) {
-		return ticketRepository.findById(id).get();
+		return ticketService.getTicket(id);
 	}
 
 	@PostMapping(path = "/create")
 	public @ResponseBody String createTicket(@RequestBody TicketForm ticketForm) {
-
-		Date dateCreated = new Date(System.currentTimeMillis());
-
-		Ticket ticket = new Ticket();
-		ticket.setTitle(ticketForm.getTitle());
-		ticket.setStatus(true);
-		// ticket.setAuthor(ticketForm.getAuthor());
-		ticket.setDescription(ticketForm.getDescription());
-		ticket.setDateCreated(dateCreated);
-		ticket.setDateUpdated(dateCreated);
-		ticketRepository.save(ticket);
-
-		return "Created successfully";
+		return ticketService.createTicket(ticketForm);
 	}
 
 	@PutMapping(path = "/update/{id}")
 	public @ResponseBody String updateTicket(@PathVariable Integer id, @RequestBody TicketForm ticketForm) {
-		Date dateUpdated = new Date(System.currentTimeMillis());
-
-		Ticket ticket = ticketRepository.findById(id).get();
-		ticket.setTitle(ticketForm.getTitle());
-		// ticket.setAuthor(ticketForm.getAuthor());
-		ticket.setDescription(ticketForm.getDescription());
-		ticket.setDateUpdated(dateUpdated);
-		ticketRepository.save(ticket);
-
-		return "Updated successfully";
+		return ticketService.updateTicket(id, ticketForm);
 	}
 
 	@DeleteMapping(path = "/delete/{id}")
 	public @ResponseBody String deleteTicket(@PathVariable Integer id) {
-		ticketRepository.deleteById(id);
-
-		return "Deleted successfully";
+		return ticketService.deleteTicket(id);
 	}
 }

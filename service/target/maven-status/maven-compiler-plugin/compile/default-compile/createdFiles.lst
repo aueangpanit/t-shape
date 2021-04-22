@@ -1,5 +1,0 @@
-com\barclays\ticketer\TicketerApplication.class
-com\barclays\ticketer\rest\request\RegisterForm.class
-com\barclays\ticketer\rest\request\TicketForm.class
-com\barclays\ticketer\rest\request\AuthenticationForm.class
-com\barclays\ticketer\rest\response\AuthenticationResponse.class
