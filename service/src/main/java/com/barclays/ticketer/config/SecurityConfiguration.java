@@ -33,6 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.csrf().disable().authorizeRequests().antMatchers("/auth/authenticate", "/auth/register").permitAll()
         .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    http.cors();
   }
 
   @Override
@@ -43,6 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Bean
   public PasswordEncoder encoder() {
-      return new BCryptPasswordEncoder();
+    return new BCryptPasswordEncoder();
   }
 }

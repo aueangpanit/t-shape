@@ -40,7 +40,7 @@ export const Ticket = () => {
       ghost={false}
       onBack={() => window.history.back()}
       title={ticket.title}
-      subTitle={ticket.author}
+      subTitle={ticket.author.name}
       extra={[
         <Button key="1" type="primary">
           {doneButtonText}

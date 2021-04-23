@@ -6,6 +6,7 @@ D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\rest\request\Reg
 D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\rest\controller\UserController.java
 D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\rest\response\AuthenticationResponse.java
 D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\service\TicketService.java
+D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\service\UserService.java
 D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\persistence\domain\User.java
 D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\config\SecurityConfiguration.java
 D:\Projects\t-shape\service\src\main\java\com\barclays\ticketer\model\MyUserDetails.java

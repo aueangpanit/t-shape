@@ -1,5 +1,6 @@
-import { Ticket } from 'models'
+import { Ticket, User } from 'models'
 
 export interface AppState {
   tickets: Ticket[]
+  users: User[]
 }

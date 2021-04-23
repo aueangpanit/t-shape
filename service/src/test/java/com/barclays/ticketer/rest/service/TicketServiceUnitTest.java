@@ -64,7 +64,7 @@ public class TicketServiceUnitTest {
     ticketForm.setTitle(ticket1.getTitle());
     ticketForm.setDescription(ticket1.getDescription());
 
-    Assertions.assertThat(ticketService.createTicket(ticketForm)).isEqualTo("Created successfully");
+    Assertions.assertThat(ticketService.createTicket(ticketForm, "")).isEqualTo("Created successfully");
 
     ArgumentCaptor<Ticket> argument = ArgumentCaptor.forClass(Ticket.class);
     Mockito.verify(ticketRepository, Mockito.times(1)).save(argument.capture());

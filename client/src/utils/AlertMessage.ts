@@ -1,3 +1,4 @@
 export enum AlertMessage {
-  SomethingWentWrong = 'Something went wrong.'
+  SomethingWentWrong = 'Something went wrong.',
+  InvalidSession = 'Invalid Session.'
 }

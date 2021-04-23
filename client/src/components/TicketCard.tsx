@@ -3,22 +3,23 @@ import { Card } from 'antd'
 import { useDeleteTicket } from 'hooks'
 import { Ticket } from 'models'
 import moment from 'moment-timezone'
+import { FC } from 'react'
 import { useHistory } from 'react-router'
 import { AppRoute, dontPropagateClick } from 'utils'
 
-interface TicketCardProps extends Ticket {
+export interface TicketCardProps extends Ticket {
   onClick?: (id: number) => void
 }
 
-export const TicketCard = ({
+export const TicketCard: FC<TicketCardProps> = ({
   id,
   dateCreated,
   dateUpdated,
   title = '',
-  author = '',
+  author = {},
   description,
   onClick = () => {}
-}: TicketCardProps) => {
+}) => {
   const history = useHistory()
 
   const [deleteTicket] = useDeleteTicket(id)
@@ -34,7 +35,7 @@ export const TicketCard = ({
           onClick={dontPropagateClick(() =>
             history.push({
               pathname: AppRoute.EditTicket,
-              state: { id, title, author, description }
+              state: { id, title, description }
             })
           )}
         />,
@@ -45,7 +46,7 @@ export const TicketCard = ({
       ]}
       onClick={() => onClick(id)}
     >
-      <Card.Meta title={title} description={author} />
+      <Card.Meta title={title} description={author.name} />
       <br />
       Created: {moment(dateCreated).calendar()}
       <br />

@@ -1,21 +1,17 @@
 import { Button, Form, Input } from 'antd'
 import { Ticket } from 'models'
-import React from 'react'
+import React, { FC } from 'react'
 
-interface TicketFormProps {
+export interface TicketFormProps {
   onFinish?: (values: any) => void
   initialValues?: Partial<Ticket>
   loading?: boolean
 }
 
-export const TicketForm = (props: TicketFormProps) => {
+export const TicketForm: FC<TicketFormProps> = props => {
   return (
     <Form name="basic" {...props} layout="vertical">
       <Form.Item label="Title" name="title" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-
-      <Form.Item label="Author" name="author" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
 

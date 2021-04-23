@@ -4,7 +4,9 @@ import java.util.Date;
 
 import com.barclays.ticketer.persistence.domain.Ticket;
 import com.barclays.ticketer.persistence.repository.TicketRepository;
+import com.barclays.ticketer.persistence.repository.UserRepository;
 import com.barclays.ticketer.rest.request.TicketForm;
+import com.barclays.ticketer.util.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,12 @@ public class TicketService {
 	@Autowired
 	private TicketRepository ticketRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	public Iterable<Ticket> getAllTicket() {
 		return ticketRepository.findAll();
 	}
@@ -22,13 +30,13 @@ public class TicketService {
 		return ticketRepository.findById(id).get();
 	}
 
-	public String createTicket(TicketForm ticketForm) {
+	public String createTicket(TicketForm ticketForm, String jwt) {
 		Date dateCreated = new Date(System.currentTimeMillis());
 
 		Ticket ticket = new Ticket();
 		ticket.setTitle(ticketForm.getTitle());
 		ticket.setStatus(true);
-		// ticket.setAuthor(ticketForm.getAuthor());
+		ticket.setAuthor(userRepository.findByEmail(jwtUtil.extractUsername(jwt)).get());
 		ticket.setDescription(ticketForm.getDescription());
 		ticket.setDateCreated(dateCreated);
 		ticket.setDateUpdated(dateCreated);
@@ -42,7 +50,6 @@ public class TicketService {
 
 		Ticket ticket = ticketRepository.findById(id).get();
 		ticket.setTitle(ticketForm.getTitle());
-		// ticket.setAuthor(ticketForm.getAuthor());
 		ticket.setDescription(ticketForm.getDescription());
 		ticket.setDateUpdated(dateUpdated);
 		ticketRepository.save(ticket);

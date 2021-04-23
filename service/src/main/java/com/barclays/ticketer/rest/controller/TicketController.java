@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,8 +35,8 @@ public class TicketController {
 	}
 
 	@PostMapping(path = "/create")
-	public @ResponseBody String createTicket(@RequestBody TicketForm ticketForm) {
-		return ticketService.createTicket(ticketForm);
+	public @ResponseBody String createTicket(@RequestBody TicketForm ticketForm, @RequestHeader String authorization) {
+		return ticketService.createTicket(ticketForm, authorization.substring(7));
 	}
 
 	@PutMapping(path = "/update/{id}")
