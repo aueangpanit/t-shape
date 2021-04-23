@@ -5,7 +5,10 @@ const urls = {
   GetTicket: '/ticket',
   CreateTicket: '/ticket/create',
   UpdateTicket: '/ticket/update',
-  DeleteTicket: '/ticket/delete'
+  DeleteTicket: '/ticket/delete',
+  Login: '/auth/authenticate',
+  Register: '/auth/register',
+  GetAllUsers: '/user/all'
 }
 
 const getServiceUrl = () => {

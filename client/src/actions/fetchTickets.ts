@@ -6,11 +6,16 @@ import { ActionTypes, UpdateTickets } from './types'
 
 type FetchTickets = () => ThunkAction<void, AppState, void, UpdateTickets>
 
-export const fetchTickets: FetchTickets = () => async dispatch => {
-  const { data } = await axios.get(ServiceUrl.GetAllTickets)
-
-  dispatch({
-    type: ActionTypes.updateTickets,
-    data
-  })
+export const fetchTickets: FetchTickets = () => dispatch => {
+  axios
+    .get(ServiceUrl.GetAllTickets)
+    .then(res => {
+      if (res?.data) {
+        dispatch({
+          type: ActionTypes.updateTickets,
+          data: res.data
+        })
+      }
+    })
+    .catch()
 }

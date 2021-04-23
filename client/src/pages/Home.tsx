@@ -1,6 +1,9 @@
 import { Button, PageHeader, Space } from 'antd'
-import { TicketCard } from 'components'
+import { TicketCard, TicketFilter } from 'components'
 import { useTickets } from 'hooks'
+import { useUsers } from 'hooks/useUsers'
+import { Ticket } from 'models'
+import { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { AppRoute } from 'utils'
 
@@ -10,6 +13,30 @@ export const createTicketButtonText = 'Create Ticket'
 export const Home = () => {
   const history = useHistory()
   const tickets = useTickets()
+  const users = useUsers()
+  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([])
+
+  useEffect(() => {
+    setFilteredTickets(tickets)
+  }, [tickets])
+
+  const filterTickets = useCallback(
+    ({ users = [] }) => {
+      const userMap: { [email: string]: true } = {}
+      for (const user of users) {
+        userMap[user] = true
+      }
+
+      let filtered = [...tickets]
+
+      if (users.length) {
+        filtered = filtered.filter(ticket => userMap[ticket.author.email])
+      }
+
+      setFilteredTickets(filtered)
+    },
+    [tickets]
+  )
 
   return (
     <>
@@ -27,7 +54,8 @@ export const Home = () => {
         ]}
       />
       <Space direction="vertical">
-        {tickets.map((ticket, i) => (
+        <TicketFilter users={users} onFinish={filterTickets} />
+        {filteredTickets.map((ticket, i) => (
           <TicketCard
             key={i}
             {...ticket}
