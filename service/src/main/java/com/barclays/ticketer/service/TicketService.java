@@ -1,8 +1,11 @@
 package com.barclays.ticketer.service;
 
 import java.util.Date;
+import java.util.List;
 
+import com.barclays.ticketer.persistence.domain.Solution;
 import com.barclays.ticketer.persistence.domain.Ticket;
+import com.barclays.ticketer.persistence.repository.SolutionRepository;
 import com.barclays.ticketer.persistence.repository.TicketRepository;
 import com.barclays.ticketer.persistence.repository.UserRepository;
 import com.barclays.ticketer.rest.request.TicketForm;
@@ -18,6 +21,9 @@ public class TicketService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private SolutionRepository solutionRepository;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -62,5 +68,9 @@ public class TicketService {
 		ticketRepository.deleteById(id);
 
 		return "Deleted successfully";
+	}
+
+	public List<Solution> getSolutions(Integer id) {
+		return solutionRepository.findAllByTicketId(id);
 	}
 }

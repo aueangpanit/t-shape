@@ -74,7 +74,7 @@ export const Home = () => {
                   key={i}
                   {...ticket}
                   onClick={() =>
-                    history.push(`${AppRoute.Ticket}/${ticket.id}`)
+                    history.push(`${AppRoute.Ticket}/${ticket.ticketId}`)
                   }
                 />
               ))}
@@ -87,7 +87,7 @@ export const Home = () => {
                   key={i}
                   {...ticket}
                   onClick={() =>
-                    history.push(`${AppRoute.Ticket}/${ticket.id}`)
+                    history.push(`${AppRoute.Ticket}/${ticket.ticketId}`)
                   }
                 />
               ))}

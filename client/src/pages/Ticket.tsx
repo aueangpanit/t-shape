@@ -1,12 +1,18 @@
-import { Button, Descriptions, Tag } from 'antd'
+import { Button, Descriptions, Space, Tag } from 'antd'
 import axios from 'axios'
-import { PageHeader } from 'components'
+import { PageHeader, SolutionForm, SolutionList } from 'components'
 import { useDeleteTicket, useEditTicket } from 'hooks'
-import { Ticket as TicketModel } from 'models'
+import { useCreateSolution } from 'hooks/useCreateSolution'
+import { Solution, Ticket as TicketModel } from 'models'
 import moment from 'moment-timezone'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 import { AppRoute, dontPropagateClick, ServiceUrl } from 'utils'
+
+const Base = styled(Space)`
+  width: 100%;
+`
 
 export const editButtonText = 'Edit'
 export const deleteButtonText = 'Delete'
@@ -21,18 +27,34 @@ export const Ticket = () => {
 
   const [deleteTicket, deleteTicketLoading] = useDeleteTicket(Number(id))
   const [editTicket, editTicketLoading] = useEditTicket(Number(id))
+  const [createSolution, createSolutionLoading] = useCreateSolution(Number(id))
 
   const [ticket, setTicket] = useState<TicketModel | null>(null)
+  const [solutions, setSolutions] = useState<Solution[]>([])
 
-  const fetchTicket = async (id: string) => {
-    const { data } = await axios.get(`${ServiceUrl.GetTicket}/${id}`)
-    setTicket(data)
-  }
+  const fetchTicket = useCallback((id: string) => {
+    axios
+      .get(ServiceUrl.GetTicket(id))
+      .then(res => {
+        setTicket(res.data)
+      })
+      .catch(error => error)
+  }, [])
+
+  const fetchSolutions = useCallback((id: string) => {
+    axios
+      .get(ServiceUrl.GetTicketSolutions(id))
+      .then(res => {
+        setSolutions(res.data)
+      })
+      .catch(error => error)
+  }, [])
 
   useEffect(() => {
     fetchTicket(id)
+    fetchSolutions(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [id])
 
   if (ticket === null) return <div></div>
 
@@ -72,17 +94,35 @@ export const Ticket = () => {
         </Button>
       ]}
     >
-      <Descriptions bordered column={1}>
-        <Descriptions.Item label={descriptionLabel}>
-          {ticket.description}
-        </Descriptions.Item>
-        <Descriptions.Item label={dateCreatedLabel}>
-          {moment(ticket.dateCreated).calendar()}
-        </Descriptions.Item>
-        <Descriptions.Item label={lastUpdatedLabel}>
-          {moment(ticket.dateUpdated).calendar()}
-        </Descriptions.Item>
-      </Descriptions>
+      <Base size="large" direction="vertical">
+        <Descriptions bordered column={1}>
+          <Descriptions.Item label={descriptionLabel}>
+            {ticket.description}
+          </Descriptions.Item>
+          <Descriptions.Item label={dateCreatedLabel}>
+            {moment(ticket.dateCreated).calendar()}
+          </Descriptions.Item>
+          <Descriptions.Item label={lastUpdatedLabel}>
+            {moment(ticket.dateUpdated).calendar()}
+          </Descriptions.Item>
+        </Descriptions>
+
+        <SolutionList
+          ticketId={Number(id)}
+          solutions={solutions}
+          fetchSolutions={() => fetchSolutions(id)}
+        />
+
+        {!ticket.status && (
+          <SolutionForm
+            loading={createSolutionLoading}
+            onFinish={async values => {
+              await createSolution(values)
+              fetchSolutions(id)
+            }}
+          />
+        )}
+      </Base>
     </PageHeader>
   )
 }

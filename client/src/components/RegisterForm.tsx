@@ -12,7 +12,7 @@ export interface RegisterFormProps {
   title: string
   submitButtonText: string
   onFinish: (values: any) => void
-  loading: boolean
+  loading?: boolean
 }
 
 export const RegisterForm: FC<RegisterFormProps> = ({

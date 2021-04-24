@@ -1,13 +1,11 @@
 import { fetchTickets } from 'actions'
 import { fetchUsers } from 'actions/fetchUsers'
-import { message } from 'antd'
-import axios from 'axios'
 import { Base } from 'components'
 import { CreateTicket, EditTicket, Home, Login, Register, Ticket } from 'pages'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import { AlertMessage, AppRoute } from 'utils'
+import { AppRoute } from 'utils'
 import { LocalStorageValue } from 'utils/LocalStorageValue'
 
 const routes = [
@@ -42,24 +40,6 @@ function App() {
   const history = useHistory()
 
   useEffect(() => {
-    axios.interceptors.request.use(req => {
-      req.headers.authorization = `Bearer ${localStorage.getItem(
-        LocalStorageValue.jwt
-      )}`
-
-      return req
-    })
-
-    axios.interceptors.response.use(
-      res => res,
-      error => {
-        if (error?.response?.status === 403) {
-          message.error(AlertMessage.InvalidSession)
-          history.push(AppRoute.Login)
-        }
-      }
-    )
-
     dispatch(fetchTickets())
     dispatch(fetchUsers())
 

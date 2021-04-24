@@ -19,7 +19,7 @@ export interface TicketCardProps extends Ticket {
 }
 
 export const TicketCard: FC<TicketCardProps> = ({
-  id,
+  ticketId,
   dateCreated,
   dateUpdated,
   title = '',
@@ -30,8 +30,8 @@ export const TicketCard: FC<TicketCardProps> = ({
 }) => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const [deleteTicket] = useDeleteTicket(id)
-  const [editTicket] = useEditTicket(id)
+  const [deleteTicket] = useDeleteTicket(ticketId)
+  const [editTicket] = useEditTicket(ticketId)
 
   return (
     <Card
@@ -63,7 +63,7 @@ export const TicketCard: FC<TicketCardProps> = ({
           onClick={dontPropagateClick(() =>
             history.push({
               pathname: AppRoute.EditTicket,
-              state: { id, title, description, status }
+              state: { ticketId, title, description, status }
             })
           )}
         />,
@@ -72,7 +72,7 @@ export const TicketCard: FC<TicketCardProps> = ({
           onClick={dontPropagateClick(deleteTicket)}
         />
       ]}
-      onClick={() => onClick(id)}
+      onClick={() => onClick(ticketId)}
     >
       <Card.Meta title={title} description={author.name} />
       <br />

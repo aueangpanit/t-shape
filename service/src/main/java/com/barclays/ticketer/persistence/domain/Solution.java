@@ -1,7 +1,6 @@
 package com.barclays.ticketer.persistence.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,25 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
-public class Ticket {
+public class Solution {
   @Id
-  @Column(name = "ticket_id")
+  @Column(name = "solution_id")
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer ticketId;
+  private Integer solutionId;
 
   @ManyToOne
   private User author;
 
-  @OneToMany(mappedBy = "ticket")
-  private List<Solution> solutions;
+  @ManyToOne
+  private Ticket ticket;
 
-  private String title;
-
-  // true = open, false = close
-  private boolean status;
+  private Number ticketId;
 
   private String description;
 
@@ -35,12 +30,12 @@ public class Ticket {
 
   private Date dateUpdated;
 
-  public Integer getTicketId() {
-    return ticketId;
+  public Integer getSolutionId() {
+    return this.solutionId;
   }
 
-  public void setTicketId(Integer ticketId) {
-    this.ticketId = ticketId;
+  public void setSolutionId(Integer solutionId) {
+    this.solutionId = solutionId;
   }
 
   public User getAuthor() {
@@ -56,24 +51,16 @@ public class Ticket {
     this.author = author;
   }
 
-  public String getTitle() {
-    return title;
+  public void setTicket(Ticket ticket) {
+    this.ticket = ticket;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public boolean getStatus() {
-    return status;
-  }
-
-  public void setStatus(boolean status) {
-    this.status = status;
+  public Number getTicketId() {
+    return ticketId;
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -81,7 +68,7 @@ public class Ticket {
   }
 
   public Date getDateCreated() {
-    return dateCreated;
+    return this.dateCreated;
   }
 
   public void setDateCreated(Date dateCreated) {
@@ -89,7 +76,7 @@ public class Ticket {
   }
 
   public Date getDateUpdated() {
-    return dateUpdated;
+    return this.dateUpdated;
   }
 
   public void setDateUpdated(Date dateUpdated) {

@@ -9,9 +9,9 @@ const title = 'Edit Ticket'
 
 export const EditTicket = (props: Ticket) => {
   const history = useHistory()
-  const [editTicket, loading] = useEditTicket(props.id)
+  const [editTicket, loading] = useEditTicket(props.ticketId)
 
-  if (!props.id) return <div>Ticket not found</div>
+  if (!props.ticketId) return <div>Ticket not found</div>
 
   return (
     <PageHeader

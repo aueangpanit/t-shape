@@ -19,6 +19,9 @@ public class User {
   @OneToMany(mappedBy = "author")
   private List<Ticket> tickets;
 
+  @OneToMany(mappedBy = "author")
+  private List<Solution> solutions;
+
   private String name;
 
   private String email;

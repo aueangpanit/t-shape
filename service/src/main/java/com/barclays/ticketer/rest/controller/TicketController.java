@@ -1,5 +1,8 @@
 package com.barclays.ticketer.rest.controller;
 
+import javax.validation.Valid;
+
+import com.barclays.ticketer.persistence.domain.Solution;
 import com.barclays.ticketer.persistence.domain.Ticket;
 import com.barclays.ticketer.rest.request.TicketForm;
 import com.barclays.ticketer.service.TicketService;
@@ -34,13 +37,19 @@ public class TicketController {
 		return ticketService.getTicket(id);
 	}
 
+	@GetMapping(path = "/{id}/solutions")
+	public @ResponseBody Iterable<Solution> getSolutions(@PathVariable Integer id) {
+		return ticketService.getSolutions(id);
+	}
+
 	@PostMapping(path = "/create")
-	public @ResponseBody String createTicket(@RequestBody TicketForm ticketForm, @RequestHeader String authorization) {
+	public @ResponseBody String createTicket(@Valid @RequestBody TicketForm ticketForm,
+			@RequestHeader String authorization) {
 		return ticketService.createTicket(ticketForm, authorization.substring(7));
 	}
 
 	@PutMapping(path = "/update/{id}")
-	public @ResponseBody String updateTicket(@PathVariable Integer id, @RequestBody TicketForm ticketForm) {
+	public @ResponseBody String updateTicket(@PathVariable Integer id, @Valid @RequestBody TicketForm ticketForm) {
 		return ticketService.updateTicket(id, ticketForm);
 	}
 

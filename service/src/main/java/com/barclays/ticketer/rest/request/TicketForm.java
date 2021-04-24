@@ -1,6 +1,9 @@
 package com.barclays.ticketer.rest.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class TicketForm {
+  @NotBlank
   private String title;
   private String description;
   private boolean status;

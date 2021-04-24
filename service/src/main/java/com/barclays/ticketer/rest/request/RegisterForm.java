@@ -1,8 +1,15 @@
 package com.barclays.ticketer.rest.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class RegisterForm {
+  @NotBlank
   private String name;
+
+  @NotBlank
   private String email;
+
+  @NotBlank
   private String password;
 
   public String getName() {

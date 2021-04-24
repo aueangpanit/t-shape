@@ -1,8 +1,12 @@
 package com.barclays.ticketer.rest.request;
 
-public class AuthenticationForm {
+import javax.validation.constraints.NotBlank;
 
+public class AuthenticationForm {
+  @NotBlank
   private String email;
+
+  @NotBlank
   private String password;
 
   public AuthenticationForm() {

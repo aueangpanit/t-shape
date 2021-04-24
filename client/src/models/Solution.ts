@@ -1,9 +1,7 @@
 import { User } from './User'
 
-export interface Ticket {
-  ticketId: number
-  title: string
-  status: boolean
+export interface Solution {
+  solutionId: number
   author: User
   description: string
   dateCreated: Date
