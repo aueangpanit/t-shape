@@ -9,6 +9,7 @@ const urls = {
   DeleteTicket: '/ticket/delete',
   Login: '/auth/authenticate',
   Register: '/auth/register',
+  GetCurrentUser: '/user/current',
   GetAllUsers: '/user/all',
   CreateSolution: '/solution/create',
   UpdateSolution: (id: string) => `/solution/update/${id}`,

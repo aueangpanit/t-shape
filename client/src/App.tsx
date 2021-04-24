@@ -1,7 +1,15 @@
-import { fetchTickets } from 'actions'
+import { fetchTickets, fetchUser } from 'actions'
 import { fetchUsers } from 'actions/fetchUsers'
-import { Base } from 'components'
-import { CreateTicket, EditTicket, Home, Login, Register, Ticket } from 'pages'
+import { Appbar, Base } from 'components'
+import {
+  Account,
+  CreateTicket,
+  EditTicket,
+  Home,
+  Login,
+  Register,
+  Ticket
+} from 'pages'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Switch, useHistory } from 'react-router-dom'
@@ -32,6 +40,10 @@ const routes = [
   {
     path: AppRoute.Login,
     component: Login
+  },
+  {
+    path: AppRoute.Account,
+    component: Account
   }
 ]
 
@@ -40,6 +52,7 @@ function App() {
   const history = useHistory()
 
   useEffect(() => {
+    dispatch(fetchUser())
     dispatch(fetchTickets())
     dispatch(fetchUsers())
 
@@ -50,20 +63,23 @@ function App() {
   }, [])
 
   return (
-    <Base>
+    <>
       <Route>
-        <Switch>
-          {routes.map((route, i) => (
-            <Route
-              key={i}
-              path={route.path}
-              exact
-              component={route.component}
-            />
-          ))}
-        </Switch>
+        <Appbar />
+        <Base>
+          <Switch>
+            {routes.map((route, i) => (
+              <Route
+                key={i}
+                path={route.path}
+                exact
+                component={route.component}
+              />
+            ))}
+          </Switch>
+        </Base>
       </Route>
-    </Base>
+    </>
   )
 }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,7 +19,13 @@ public class UserController {
   private UserService userService;
 
   @GetMapping(path = "/all")
-	public @ResponseBody Iterable<User> getAllTicket() {
-		return userService.getAllUser();
-	}
+  public @ResponseBody Iterable<User> getAllUsers() {
+    return userService.getAllUser();
+  }
+
+  @GetMapping(path = "/current")
+  public @ResponseBody User getCurrentUser(@RequestHeader String authorization) {
+    return userService.getCurrentUser(authorization.substring(7));
+  }
+
 }

@@ -16,7 +16,7 @@ const TicketsContainer = styled(Space)`
   padding: 16px;
 `
 
-export const queueTitle = 'Queue'
+export const ticketsTitle = 'Tickets'
 export const createTicketButtonText = 'Create Ticket'
 
 export const Home = () => {
@@ -53,7 +53,7 @@ export const Home = () => {
   return (
     <>
       <PageHeader
-        title={queueTitle}
+        title={ticketsTitle}
         extra={[
           <Button
             key={1}
