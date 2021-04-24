@@ -1,6 +1,7 @@
 export * from './Base'
 export * from './Center'
 export * from './LoginForm'
+export * from './PageHeader'
 export * from './RegisterForm'
 export * from './TicketCard'
 export * from './TicketFilter'

@@ -2,11 +2,14 @@ import { PageHeader } from 'antd'
 import { TicketForm } from 'components'
 import { useEditTicket } from 'hooks'
 import { Ticket } from 'models'
+import { useHistory } from 'react-router'
+import { AppRoute } from 'utils'
 
 const title = 'Edit Ticket'
 
 export const EditTicket = (props: Ticket) => {
-  const { loading, editTicket } = useEditTicket(props.id)
+  const history = useHistory()
+  const [editTicket, loading] = useEditTicket(props.id)
 
   if (!props.id) return <div>Ticket not found</div>
 
@@ -19,7 +22,10 @@ export const EditTicket = (props: Ticket) => {
       <TicketForm
         initialValues={props}
         loading={loading}
-        onFinish={editTicket}
+        onFinish={async values => {
+          await editTicket(values)
+          history.push(AppRoute.Home)
+        }}
       />
     </PageHeader>
   )

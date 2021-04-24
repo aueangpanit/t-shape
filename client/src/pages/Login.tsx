@@ -5,7 +5,7 @@ const title = 'Login'
 const submitButtonText = title
 
 export const Login = () => {
-  const { loading, login } = useLogin()
+  const [login, loading] = useLogin()
 
   return (
     <Center>

@@ -8,7 +8,10 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { AppRoute, ServiceUrl } from 'utils'
 
-export const useCreateTicket = () => {
+export const useCreateTicket = (): [
+  (params: any) => Promise<void>,
+  boolean
+] => {
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -25,8 +28,5 @@ export const useCreateTicket = () => {
     history.push(AppRoute.Home)
   })
 
-  return {
-    createTicket,
-    loading
-  }
+  return [createTicket, loading]
 }

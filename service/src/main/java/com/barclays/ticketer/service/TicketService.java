@@ -51,6 +51,7 @@ public class TicketService {
 		Ticket ticket = ticketRepository.findById(id).get();
 		ticket.setTitle(ticketForm.getTitle());
 		ticket.setDescription(ticketForm.getDescription());
+		ticket.setStatus(ticketForm.getStatus());
 		ticket.setDateUpdated(dateUpdated);
 		ticketRepository.save(ticket);
 

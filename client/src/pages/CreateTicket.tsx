@@ -6,7 +6,7 @@ export const title = 'Create Ticket'
 export const createSuccessfullyMessage = 'Ticket created successfully'
 
 export const CreateTicket = () => {
-  const { loading, createTicket } = useCreateTicket()
+  const [createTicket, loading] = useCreateTicket()
 
   return (
     <PageHeader
