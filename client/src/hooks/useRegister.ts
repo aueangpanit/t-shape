@@ -14,7 +14,10 @@ export interface RegisterForm {
   password: string
 }
 
-export const useRegister = () => {
+export const useRegister = (): [
+  (values: RegisterForm) => Promise<void>,
+  boolean
+] => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
 
@@ -40,5 +43,5 @@ export const useRegister = () => {
     setLoading(false)
   })
 
-  return { register, loading }
+  return [register, loading]
 }

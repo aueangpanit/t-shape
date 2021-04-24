@@ -5,7 +5,7 @@ const title = 'Register'
 const submitButtonText = title
 
 export const Register = () => {
-  const { loading, register } = useRegister()
+  const [register, loading] = useRegister()
 
   return (
     <Center>

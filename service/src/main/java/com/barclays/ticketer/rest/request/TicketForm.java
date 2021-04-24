@@ -3,6 +3,7 @@ package com.barclays.ticketer.rest.request;
 public class TicketForm {
   private String title;
   private String description;
+  private boolean status;
 
   public String getTitle() {
     return title;
@@ -18,5 +19,13 @@ public class TicketForm {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public boolean getStatus() {
+    return this.status;
+  }
+
+  public void setStatus(boolean status) {
+    this.status = status;
   }
 }

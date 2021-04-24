@@ -1,11 +1,20 @@
-import { Button, PageHeader, Space } from 'antd'
-import { TicketCard, TicketFilter } from 'components'
+import { Button, Space, Tabs } from 'antd'
+import { PageHeader, TicketCard, TicketFilter } from 'components'
 import { useTickets } from 'hooks'
 import { useUsers } from 'hooks/useUsers'
 import { Ticket } from 'models'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
+import styled from 'styled-components'
 import { AppRoute } from 'utils'
+
+const Base = styled(Space)`
+  width: 100%;
+`
+
+const TicketsContainer = styled(Space)`
+  padding: 16px;
+`
 
 export const queueTitle = 'Queue'
 export const createTicketButtonText = 'Create Ticket'
@@ -38,10 +47,12 @@ export const Home = () => {
     [tickets]
   )
 
+  const openTickets = filteredTickets.filter(ticket => ticket.status)
+  const doneTickets = filteredTickets.filter(ticket => !ticket.status)
+
   return (
     <>
       <PageHeader
-        ghost={false}
         title={queueTitle}
         extra={[
           <Button
@@ -53,16 +64,37 @@ export const Home = () => {
           </Button>
         ]}
       />
-      <Space direction="vertical">
+      <Base direction="vertical" size="large">
         <TicketFilter users={users} onFinish={filterTickets} />
-        {filteredTickets.map((ticket, i) => (
-          <TicketCard
-            key={i}
-            {...ticket}
-            onClick={() => history.push(`${AppRoute.Ticket}/${ticket.id}`)}
-          />
-        ))}
-      </Space>
+        <Tabs defaultActiveKey="open">
+          <Tabs.TabPane tab="Open Tickets" key="open">
+            <TicketsContainer direction="vertical">
+              {openTickets.map((ticket, i) => (
+                <TicketCard
+                  key={i}
+                  {...ticket}
+                  onClick={() =>
+                    history.push(`${AppRoute.Ticket}/${ticket.id}`)
+                  }
+                />
+              ))}
+            </TicketsContainer>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Closed Tickets" key="close">
+            <TicketsContainer direction="vertical">
+              {doneTickets.map((ticket, i) => (
+                <TicketCard
+                  key={i}
+                  {...ticket}
+                  onClick={() =>
+                    history.push(`${AppRoute.Ticket}/${ticket.id}`)
+                  }
+                />
+              ))}
+            </TicketsContainer>
+          </Tabs.TabPane>
+        </Tabs>
+      </Base>
     </>
   )
 }

@@ -4,13 +4,13 @@ import axios from 'axios'
 import { useAct } from 'hooks'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { AppRoute, ServiceUrl } from 'utils'
+import { ServiceUrl } from 'utils'
 
 const updateSuccessfulMessage = 'Ticket updated successfully'
 
-export const useEditTicket = (id: number) => {
-  const history = useHistory()
+export const useEditTicket = (
+  id: number
+): [(params: any) => Promise<void>, boolean] => {
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)
@@ -23,11 +23,7 @@ export const useEditTicket = (id: number) => {
     dispatch(fetchTickets())
     message.success(updateSuccessfulMessage)
     setLoading(false)
-    history.push(AppRoute.Home)
   })
 
-  return {
-    loading,
-    editTicket
-  }
+  return [editTicket, loading]
 }

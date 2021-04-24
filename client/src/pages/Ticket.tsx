@@ -1,13 +1,13 @@
-import { Button, Descriptions, PageHeader } from 'antd'
+import { Button, Descriptions, Tag } from 'antd'
 import axios from 'axios'
-import { useDeleteTicket } from 'hooks'
+import { PageHeader } from 'components'
+import { useDeleteTicket, useEditTicket } from 'hooks'
 import { Ticket as TicketModel } from 'models'
 import moment from 'moment-timezone'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { AppRoute, dontPropagateClick, ServiceUrl } from 'utils'
 
-export const doneButtonText = 'Done'
 export const editButtonText = 'Edit'
 export const deleteButtonText = 'Delete'
 
@@ -20,6 +20,7 @@ export const Ticket = () => {
   const { id }: { id: string } = useParams()
 
   const [deleteTicket, deleteTicketLoading] = useDeleteTicket(Number(id))
+  const [editTicket, editTicketLoading] = useEditTicket(Number(id))
 
   const [ticket, setTicket] = useState<TicketModel | null>(null)
 
@@ -35,14 +36,27 @@ export const Ticket = () => {
 
   if (ticket === null) return <div></div>
 
+  const ticketStatusString = ticket.status ? 'Open' : 'Closed'
+  const doneButtonText = ticket.status ? 'Close' : 'Open'
+
   return (
     <PageHeader
-      ghost={false}
+      tags={
+        <Tag color={ticket.status ? 'blue' : 'red'}>{ticketStatusString}</Tag>
+      }
       onBack={() => window.history.back()}
       title={ticket.title}
       subTitle={ticket.author.name}
       extra={[
-        <Button key="1" type="primary">
+        <Button
+          key="1"
+          type="primary"
+          onClick={dontPropagateClick(async () => {
+            await editTicket({ ...ticket, status: !ticket.status })
+            fetchTicket(id)
+          })}
+          loading={editTicketLoading}
+        >
           {doneButtonText}
         </Button>,
         <Button

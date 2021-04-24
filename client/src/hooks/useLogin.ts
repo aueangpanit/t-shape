@@ -14,7 +14,7 @@ export interface LoginForm {
   password: string
 }
 
-export const useLogin = () => {
+export const useLogin = (): [(values: LoginForm) => Promise<void>, boolean] => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
 
@@ -40,5 +40,5 @@ export const useLogin = () => {
     setLoading(false)
   })
 
-  return { login, loading }
+  return [login, loading]
 }
