@@ -1,9 +1,12 @@
-import { Button, Space, Tabs } from 'antd'
+import { fetchTickets } from 'actions'
+import { fetchUsers } from 'actions/fetchUsers'
+import { Button, message, Space, Tabs } from 'antd'
 import { PageHeader, TicketCard, TicketFilter } from 'components'
 import { useTickets } from 'hooks'
 import { useUsers } from 'hooks/useUsers'
 import { Ticket } from 'models'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import { AppRoute } from 'utils'
@@ -19,21 +22,41 @@ const TicketsContainer = styled(Space)`
 export const ticketsTitle = 'Tickets'
 export const createTicketButtonText = 'Create Ticket'
 
+export const successfulFilteredMessage = 'Tickets successfully filtered'
+
 export const Home = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
+
   const tickets = useTickets()
   const users = useUsers()
+
   const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([])
+
+  useEffect(() => {
+    if (!users) {
+      dispatch(fetchUsers())
+    }
+
+    if (!tickets) {
+      dispatch(fetchTickets())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setFilteredTickets(tickets)
   }, [tickets])
 
   const filterTickets = useCallback(
-    ({ users = [] }) => {
+    ({ users = [], assignedUsers = [] }) => {
       const userMap: { [email: string]: true } = {}
+      const assignedUserMap: { [email: string]: true } = {}
       for (const user of users) {
         userMap[user] = true
+      }
+      for (const assignedUser of assignedUsers) {
+        assignedUserMap[assignedUser] = true
       }
 
       let filtered = [...tickets]
@@ -42,7 +65,14 @@ export const Home = () => {
         filtered = filtered.filter(ticket => userMap[ticket.author.email])
       }
 
+      if (assignedUsers.length) {
+        filtered = filtered.filter(
+          ticket => assignedUserMap[ticket.assignedUser?.email ?? '']
+        )
+      }
+
       setFilteredTickets(filtered)
+      message.success(successfulFilteredMessage)
     },
     [tickets]
   )
@@ -65,7 +95,7 @@ export const Home = () => {
         ]}
       />
       <Base direction="vertical" size="large">
-        <TicketFilter users={users} onFinish={filterTickets} />
+        <TicketFilter onFinish={filterTickets} />
         <Tabs defaultActiveKey="open">
           <Tabs.TabPane tab="Open Tickets" key="open">
             <TicketsContainer direction="vertical">

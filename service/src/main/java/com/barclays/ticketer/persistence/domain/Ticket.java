@@ -21,6 +21,9 @@ public class Ticket {
   @ManyToOne
   private User author;
 
+  @ManyToOne
+  private User assignedUser;
+
   @OneToMany(mappedBy = "ticket")
   private List<Solution> solutions;
 
@@ -54,6 +57,23 @@ public class Ticket {
 
   public void setAuthor(User author) {
     this.author = author;
+  }
+
+  public User getAssignedUser() {
+    if (assignedUser == null) {
+      return null;
+    }
+
+    User user = new User();
+
+    user.setName(assignedUser.getName());
+    user.setEmail(assignedUser.getEmail());
+
+    return user;
+  }
+
+  public void setAssignedUser(User assignedUser) {
+    this.assignedUser = assignedUser;
   }
 
   public String getTitle() {

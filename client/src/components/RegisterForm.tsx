@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input } from 'antd'
+import { Button, Card, Form, Input, Radio } from 'antd'
 import React, { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -42,6 +42,17 @@ export const RegisterForm: FC<RegisterFormProps> = ({
           rules={[{ required: true }]}
         >
           <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          label="Are you a technician?"
+          name="isTechnician"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value={true}>Yes</Radio>
+            <Radio value={false}>No</Radio>
+          </Radio.Group>
         </Form.Item>
 
         <Form.Item>

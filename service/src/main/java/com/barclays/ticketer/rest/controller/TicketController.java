@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -28,7 +29,11 @@ public class TicketController {
 	TicketService ticketService;
 
 	@GetMapping(path = "/all")
-	public @ResponseBody Iterable<Ticket> getAllTicket() {
+	public @ResponseBody Iterable<Ticket> getAllTicket(@RequestParam(required = false) Integer assignedUserId) {
+		if (assignedUserId != null) {
+			return ticketService.getAllTicketsWithAssignedUser(assignedUserId);
+		}
+
 		return ticketService.getAllTicket();
 	}
 

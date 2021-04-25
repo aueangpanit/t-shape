@@ -7,6 +7,7 @@ public class TicketForm {
   private String title;
   private String description;
   private boolean status;
+  private Integer assignedUserId;
 
   public String getTitle() {
     return title;
@@ -30,5 +31,17 @@ public class TicketForm {
 
   public void setStatus(boolean status) {
     this.status = status;
+  }
+
+  public boolean isStatus() {
+    return this.status;
+  }
+
+  public Integer getAssignedUserId() {
+    return this.assignedUserId;
+  }
+
+  public void setAssignedUserId(Integer assignedUserId) {
+    this.assignedUserId = assignedUserId;
   }
 }

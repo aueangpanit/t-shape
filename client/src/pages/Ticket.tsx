@@ -18,6 +18,8 @@ export const editButtonText = 'Edit'
 export const deleteButtonText = 'Delete'
 
 export const descriptionLabel = 'Description'
+export const authorLabel = 'Author'
+export const assignedUserLabel = 'Assigned User'
 export const dateCreatedLabel = 'Date Created'
 export const lastUpdatedLabel = 'Last Updated'
 
@@ -56,7 +58,7 @@ export const Ticket = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
-  if (ticket === null) return <div></div>
+  if (!ticket) return <div></div>
 
   const ticketStatusString = ticket.status ? 'Open' : 'Closed'
   const doneButtonText = ticket.status ? 'Close' : 'Open'
@@ -98,6 +100,14 @@ export const Ticket = () => {
         <Descriptions bordered column={1}>
           <Descriptions.Item label={descriptionLabel}>
             {ticket.description}
+          </Descriptions.Item>
+          <Descriptions.Item label={authorLabel}>
+            {ticket.author.name} ({ticket.author.email})
+          </Descriptions.Item>
+          <Descriptions.Item label={assignedUserLabel}>
+            {ticket.assignedUser
+              ? `${ticket.assignedUser.name} (${ticket.assignedUser.email})`
+              : ''}
           </Descriptions.Item>
           <Descriptions.Item label={dateCreatedLabel}>
             {moment(ticket.dateCreated).calendar()}

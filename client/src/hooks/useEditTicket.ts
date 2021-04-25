@@ -9,7 +9,8 @@ import { ServiceUrl } from 'utils'
 const updateSuccessfulMessage = 'Ticket updated successfully'
 
 export const useEditTicket = (
-  id: number
+  id: number,
+  initialValues?: any
 ): [(params: any) => Promise<void>, boolean] => {
   const dispatch = useDispatch()
 
@@ -19,10 +20,13 @@ export const useEditTicket = (
     if (loading) return
 
     setLoading(true)
-    await axios.put(`${ServiceUrl.UpdateTicket}/${id}`, values)
-    dispatch(fetchTickets())
+    await axios.put(`${ServiceUrl.UpdateTicket}/${id}`, {
+      ...initialValues,
+      ...values
+    })
     message.success(updateSuccessfulMessage)
     setLoading(false)
+    dispatch(fetchTickets())
   })
 
   return [editTicket, loading]

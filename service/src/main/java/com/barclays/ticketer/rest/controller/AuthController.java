@@ -68,6 +68,7 @@ public class AuthController {
     user.setName(registerForm.getName());
     user.setEmail(registerForm.getEmail());
     user.setPassword(passwordEncoder.encode(registerForm.getPassword()));
+    user.setIsTechincian(registerForm.getIsTechnician());
 
     userRepository.save(user);
 
