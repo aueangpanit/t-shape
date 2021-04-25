@@ -4,5 +4,7 @@ export enum AppRoute {
   CreateTicket = '/createTicket',
   EditTicket = '/editTicket',
   Register = '/register',
-  Login = '/login'
+  Login = '/login',
+  Account = '/account',
+  EditAccount = '/editAccount'
 }

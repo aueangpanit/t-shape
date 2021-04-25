@@ -19,11 +19,19 @@ public class User {
   @OneToMany(mappedBy = "author")
   private List<Ticket> tickets;
 
+  @OneToMany(mappedBy = "assignedUser")
+  private List<Ticket> assignedTickets;
+
+  @OneToMany(mappedBy = "author")
+  private List<Solution> solutions;
+
   private String name;
 
   private String email;
 
   private String password;
+
+  private Boolean isTechnician;
 
   public Integer getUserId() {
     return userId;
@@ -55,5 +63,13 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Boolean getIsTechnician() {
+    return isTechnician;
+  }
+
+  public void setIsTechincian(Boolean isTechnician) {
+    this.isTechnician = isTechnician;
   }
 }

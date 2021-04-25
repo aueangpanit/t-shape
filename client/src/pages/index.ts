@@ -1,4 +1,6 @@
+export { Account } from './Account'
 export { CreateTicket } from './CreateTicket'
+export { EditAccount } from './EditAccount'
 export { EditTicket } from './EditTicket'
 export { Home } from './Home'
 export { Login } from './Login'

@@ -54,7 +54,8 @@ public class AuthController {
     final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationForm.getEmail());
     final String jwt = jwtUtil.generateToken(userDetails);
 
-    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    return ResponseEntity
+        .ok(new AuthenticationResponse(jwt, userRepository.findByEmail(userDetails.getUsername()).get()));
   }
 
   @PostMapping(path = "/register")
@@ -67,13 +68,13 @@ public class AuthController {
     user.setName(registerForm.getName());
     user.setEmail(registerForm.getEmail());
     user.setPassword(passwordEncoder.encode(registerForm.getPassword()));
+    user.setIsTechincian(registerForm.getIsTechnician());
 
     userRepository.save(user);
 
     final UserDetails userDetails = userDetailsService.loadUserByUsername(registerForm.getEmail());
     final String jwt = jwtUtil.generateToken(userDetails);
 
-    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    return ResponseEntity.ok(new AuthenticationResponse(jwt, user));
   }
-
 }

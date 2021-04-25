@@ -1,14 +1,26 @@
-import { fetchTickets } from 'actions'
+import { fetchTickets, fetchUser } from 'actions'
 import { fetchUsers } from 'actions/fetchUsers'
 import { message } from 'antd'
 import axios from 'axios'
-import { Base } from 'components'
-import { CreateTicket, EditTicket, Home, Login, Register, Ticket } from 'pages'
+import { Appbar, Base } from 'components'
+import { debounce } from 'lodash'
+import {
+  Account,
+  CreateTicket,
+  EditAccount,
+  EditTicket,
+  Home,
+  Login,
+  Register,
+  Ticket
+} from 'pages'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import { AlertMessage, AppRoute } from 'utils'
 import { LocalStorageValue } from 'utils/LocalStorageValue'
+
+const sendMessageError = debounce((text: string) => message.error(text), 1000)
 
 const routes = [
   {
@@ -34,6 +46,14 @@ const routes = [
   {
     path: AppRoute.Login,
     component: Login
+  },
+  {
+    path: AppRoute.Account,
+    component: Account
+  },
+  {
+    path: AppRoute.EditAccount,
+    component: EditAccount
   }
 ]
 
@@ -42,6 +62,25 @@ function App() {
   const history = useHistory()
 
   useEffect(() => {
+    axios.interceptors.response.use(
+      res => res,
+      error => {
+        if (error?.response?.status === 403) {
+          sendMessageError(AlertMessage.InvalidSession)
+          history.push(AppRoute.Login)
+          return error
+        }
+
+        if (error?.response?.status === 400) {
+          sendMessageError(AlertMessage.BadRequest)
+          return error
+        }
+
+        sendMessageError(AlertMessage.SomethingWentWrong)
+        return error
+      }
+    )
+
     axios.interceptors.request.use(req => {
       req.headers.authorization = `Bearer ${localStorage.getItem(
         LocalStorageValue.jwt
@@ -50,16 +89,7 @@ function App() {
       return req
     })
 
-    axios.interceptors.response.use(
-      res => res,
-      error => {
-        if (error?.response?.status === 403) {
-          message.error(AlertMessage.InvalidSession)
-          history.push(AppRoute.Login)
-        }
-      }
-    )
-
+    dispatch(fetchUser())
     dispatch(fetchTickets())
     dispatch(fetchUsers())
 
@@ -70,20 +100,23 @@ function App() {
   }, [])
 
   return (
-    <Base>
+    <>
       <Route>
-        <Switch>
-          {routes.map((route, i) => (
-            <Route
-              key={i}
-              path={route.path}
-              exact
-              component={route.component}
-            />
-          ))}
-        </Switch>
+        <Appbar />
+        <Base>
+          <Switch>
+            {routes.map((route, i) => (
+              <Route
+                key={i}
+                path={route.path}
+                exact
+                component={route.component}
+              />
+            ))}
+          </Switch>
+        </Base>
       </Route>
-    </Base>
+    </>
   )
 }
 

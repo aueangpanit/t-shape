@@ -16,6 +16,7 @@ export interface LoginForm {
 
 export const useLogin = (): [(values: LoginForm) => Promise<void>, boolean] => {
   const history = useHistory()
+
   const [loading, setLoading] = useState(false)
 
   const login = useAct(async (values: LoginForm) => {

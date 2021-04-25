@@ -1,5 +1,8 @@
 package com.barclays.ticketer.rest.controller;
 
+import javax.validation.Valid;
+
+import com.barclays.ticketer.persistence.domain.Solution;
 import com.barclays.ticketer.persistence.domain.Ticket;
 import com.barclays.ticketer.rest.request.TicketForm;
 import com.barclays.ticketer.service.TicketService;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -25,7 +29,11 @@ public class TicketController {
 	TicketService ticketService;
 
 	@GetMapping(path = "/all")
-	public @ResponseBody Iterable<Ticket> getAllTicket() {
+	public @ResponseBody Iterable<Ticket> getAllTicket(@RequestParam(required = false) Integer assignedUserId) {
+		if (assignedUserId != null) {
+			return ticketService.getAllTicketsWithAssignedUser(assignedUserId);
+		}
+
 		return ticketService.getAllTicket();
 	}
 
@@ -34,13 +42,19 @@ public class TicketController {
 		return ticketService.getTicket(id);
 	}
 
+	@GetMapping(path = "/{id}/solutions")
+	public @ResponseBody Iterable<Solution> getSolutions(@PathVariable Integer id) {
+		return ticketService.getSolutions(id);
+	}
+
 	@PostMapping(path = "/create")
-	public @ResponseBody String createTicket(@RequestBody TicketForm ticketForm, @RequestHeader String authorization) {
+	public @ResponseBody String createTicket(@Valid @RequestBody TicketForm ticketForm,
+			@RequestHeader String authorization) {
 		return ticketService.createTicket(ticketForm, authorization.substring(7));
 	}
 
 	@PutMapping(path = "/update/{id}")
-	public @ResponseBody String updateTicket(@PathVariable Integer id, @RequestBody TicketForm ticketForm) {
+	public @ResponseBody String updateTicket(@PathVariable Integer id, @Valid @RequestBody TicketForm ticketForm) {
 		return ticketService.updateTicket(id, ticketForm);
 	}
 

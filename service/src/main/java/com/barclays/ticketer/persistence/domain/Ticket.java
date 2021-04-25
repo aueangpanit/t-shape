@@ -1,6 +1,7 @@
 package com.barclays.ticketer.persistence.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Ticket {
@@ -18,6 +20,12 @@ public class Ticket {
 
   @ManyToOne
   private User author;
+
+  @ManyToOne
+  private User assignedUser;
+
+  @OneToMany(mappedBy = "ticket")
+  private List<Solution> solutions;
 
   private String title;
 
@@ -30,7 +38,7 @@ public class Ticket {
 
   private Date dateUpdated;
 
-  public Integer getId() {
+  public Integer getTicketId() {
     return ticketId;
   }
 
@@ -39,11 +47,33 @@ public class Ticket {
   }
 
   public User getAuthor() {
-    return author;
+    User user = new User();
+
+    user.setName(author.getName());
+    user.setEmail(author.getEmail());
+
+    return user;
   }
 
   public void setAuthor(User author) {
     this.author = author;
+  }
+
+  public User getAssignedUser() {
+    if (assignedUser == null) {
+      return null;
+    }
+
+    User user = new User();
+
+    user.setName(assignedUser.getName());
+    user.setEmail(assignedUser.getEmail());
+
+    return user;
+  }
+
+  public void setAssignedUser(User assignedUser) {
+    this.assignedUser = assignedUser;
   }
 
   public String getTitle() {

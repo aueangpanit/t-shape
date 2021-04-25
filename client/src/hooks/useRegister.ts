@@ -22,8 +22,6 @@ export const useRegister = (): [
   const [loading, setLoading] = useState(false)
 
   const register = useAct(async (values: RegisterForm) => {
-    console.log(values)
-
     if (loading) return
 
     setLoading(true)

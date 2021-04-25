@@ -2,7 +2,8 @@ import { Ticket, User } from 'models'
 
 export enum ActionTypes {
   updateTickets = 'UPDATE_TICKETS',
-  updateUsers = 'UPDATE_USERS'
+  updateUsers = 'UPDATE_USERS',
+  updateUser = 'UPDATE_USER'
 }
 
 export interface UpdateTickets {
@@ -13,4 +14,9 @@ export interface UpdateTickets {
 export interface UpdateUsers {
   type: ActionTypes.updateUsers
   data: User[]
+}
+
+export interface UpdateUser {
+  type: ActionTypes.updateUser
+  data: User
 }
