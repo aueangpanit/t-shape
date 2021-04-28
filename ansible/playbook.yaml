@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: 'Install curl'
+      apt:
+        name: curl
+        state: latest
+        update_cache: true
+
+- hosts: web
+  become: true
+  tasks:
+    - name: 'Install nginx'
+      apt:
+        name: nginx
+        state: latest
+        update_cache: true
+    - name: 'Check if nginx is running'
+      service:
+        name: nginx
+        state: started
+
+- hosts: jenkins
+  become: true
+  tasks:
+    - name: 'Install Unzip'
+      apt:
+        name: unzip
+        state: latest
+        update_cache: true
+  
