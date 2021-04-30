@@ -1,2 +1,0 @@
-ticketer-jenkins-public-ip = "34.247.183.163"
-ticketer-web-public-ip = "3.251.76.136"

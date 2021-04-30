@@ -24,20 +24,28 @@ module "ticketer-public-subnet-1" {
   cidr   = "10.0.1.0/24"
 }
 
-module "ticketer-private-subnet-1" {
-  source = "./subnet"
-  name   = "ticketer-private-subnet-1"
-  vpc_id = module.ticketer-vpc.id
-  cidr   = "10.0.2.0/24"
-}
-
-module "ticketer-private-subnet-2" {
+module "ticketer-public-subnet-2" {
   source  = "./subnet"
-  name    = "ticketer-private-subnet-2"
+  name    = "ticketer-public-subnet-2"
   vpc_id  = module.ticketer-vpc.id
-  cidr    = "10.0.3.0/24"
+  cidr    = "10.0.2.0/24"
   av_zone = "eu-west-1b"
 }
+
+# module "ticketer-private-subnet-1" {
+#   source = "./subnet"
+#   name   = "ticketer-private-subnet-1"
+#   vpc_id = module.ticketer-vpc.id
+#   cidr   = "10.0.3.0/24"
+# }
+
+# module "ticketer-private-subnet-2" {
+#   source  = "./subnet"
+#   name    = "ticketer-private-subnet-2"
+#   vpc_id  = module.ticketer-vpc.id
+#   cidr    = "10.0.4.0/24"
+#   av_zone = "eu-west-1b"
+# }
 
 # create internet gateways
 module "ticketer-internet-gateway" {
@@ -54,11 +62,11 @@ module "ticketer-public-route-table" {
   internet_gateway_id = module.ticketer-internet-gateway.id
 }
 
-module "ticketer-private-route-table" {
-  source = "./private-route-table"
-  name   = "ticketer-public-route-table"
-  vpc_id = module.ticketer-vpc.id
-}
+# module "ticketer-private-route-table" {
+#   source = "./private-route-table"
+#   name   = "ticketer-public-route-table"
+#   vpc_id = module.ticketer-vpc.id
+# }
 
 # assign subnets to route tables
 resource "aws_route_table_association" "a" {
@@ -67,14 +75,14 @@ resource "aws_route_table_association" "a" {
 }
 
 resource "aws_route_table_association" "b" {
-  subnet_id      = module.ticketer-private-subnet-1.id
-  route_table_id = module.ticketer-private-route-table.id
+  subnet_id      = module.ticketer-public-subnet-2.id
+  route_table_id = module.ticketer-public-route-table.id
 }
 
-resource "aws_route_table_association" "c" {
-  subnet_id      = module.ticketer-private-subnet-2.id
-  route_table_id = module.ticketer-private-route-table.id
-}
+# resource "aws_route_table_association" "c" {
+#   subnet_id      = module.ticketer-private-subnet-2.id
+#   route_table_id = module.ticketer-private-route-table.id
+# }
 
 # create EC2 instances
 module "ticketer-jenkins" {
@@ -82,6 +90,7 @@ module "ticketer-jenkins" {
   name           = "ticketer-jenkins"
   security_group = module.ticketer-security-group.id
   subnet_id      = module.ticketer-public-subnet-1.id
+  instance_type  = "t3.small"
 }
 
 module "ticketer-web" {
@@ -93,11 +102,11 @@ module "ticketer-web" {
 
 # create RDS
 resource "aws_db_subnet_group" "ticketer-rds-subnet-group" {
-  name       = "main"
-  subnet_ids = [module.ticketer-public-subnet-1.id, module.ticketer-private-subnet-1.id, module.ticketer-private-subnet-2.id]
+  name       = "ticketer-rds-subnet-group"
+  subnet_ids = [module.ticketer-public-subnet-1.id, module.ticketer-public-subnet-2.id]
 
   tags = {
-    Name = "My DB subnet group"
+    Name = "ticketer-rds-subnet-group"
   }
 }
 
