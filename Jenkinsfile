@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('Login to Dockerhub') {
       steps {
-        sh 'docker login -u ' + env.dockerhubUsername + ' -p ' + env.dockerhubPassword
+        sh 'echo "$dockerhubPassword" | docker login --username ' + env.dockerhubUsername + ' --password-stdin'
       }
     }
 
@@ -28,7 +28,7 @@ pipeline {
         }
       }
     }
-    
+
     stage('Create client Docker image and upload to docker hub') {
       steps {
         dir('client') {
