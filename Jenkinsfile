@@ -13,11 +13,11 @@ pipeline {
       steps {
         echo 'building client...'
         dir('client') {
-          writeFile file: '.env.production', text: 'REACT_APP_SERVICE_URL=${REACT_APP_SERVICE_URL}'
+          writeFile file: '.env.production', text: 'REACT_APP_SERVICE_URL=' + env.REACT_APP_SERVICE_URL
           sh 'ls -l .env.production'
           sh 'cat .env.production'
-          sh 'sudo npm run build'
-          sh 'sudo docker --version'
+          sh 'npm run build'
+          sh 'docker --version'
         }
       }
     }
