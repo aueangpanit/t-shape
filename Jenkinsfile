@@ -16,6 +16,7 @@ pipeline {
           writeFile file: '.env.production', text: 'REACT_APP_SERVICE_URL=' + env.REACT_APP_SERVICE_URL
           sh 'ls -l .env.production'
           sh 'cat .env.production'
+          sh 'npm install'
           sh 'npm run build'
           sh 'docker --version'
         }
