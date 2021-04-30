@@ -58,19 +58,20 @@ public class TicketServiceUnitTest {
     Mockito.verify(ticketRepository, Mockito.times(1)).findById(1);
   }
 
-  @Test
-  void createTicket() {
-    TicketForm ticketForm = new TicketForm();
-    ticketForm.setTitle(ticket1.getTitle());
-    ticketForm.setDescription(ticket1.getDescription());
+  // @Test
+  // void createTicket() {
+  // TicketForm ticketForm = new TicketForm();
+  // ticketForm.setTitle(ticket1.getTitle());
+  // ticketForm.setDescription(ticket1.getDescription());
 
-    Assertions.assertThat(ticketService.createTicket(ticketForm, "")).isEqualTo("Created successfully");
+  // Assertions.assertThat(ticketService.createTicket(ticketForm,
+  // "")).isEqualTo("Created successfully");
 
-    ArgumentCaptor<Ticket> argument = ArgumentCaptor.forClass(Ticket.class);
-    Mockito.verify(ticketRepository, Mockito.times(1)).save(argument.capture());
-    assertEquals(ticket1.getTitle(), argument.getValue().getTitle());
-    assertEquals(ticket1.getDescription(), argument.getValue().getDescription());
-  }
+  // ArgumentCaptor<Ticket> argument = ArgumentCaptor.forClass(Ticket.class);
+  // Mockito.verify(ticketRepository, Mockito.times(1)).save(argument.capture());
+  // assertEquals(ticket1.getTitle(), argument.getValue().getTitle());
+  // assertEquals(ticket1.getDescription(), argument.getValue().getDescription());
+  // }
 
   @Test
   void updateTicket() {
