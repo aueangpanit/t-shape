@@ -6,6 +6,7 @@ pipeline {
     databaseUrl = credentials('databaseUrl')
     databaseUsername = credentials('databaseUsername')
     databasePassword = credentials('databasePassword')
+    jwtSecretKey = credentials('jwtSecretKey')
     dockerhubUsername = credentials('dockerhubUsername')
     dockerhubPassword = credentials('dockerhubPassword')
   }
@@ -19,7 +20,6 @@ pipeline {
 
     stage('Build client') {
       steps {
-        echo 'building client...'
         dir('client') {
           writeFile file: '.env.production', text: 'REACT_APP_SERVICE_URL=' + env.REACT_APP_SERVICE_URL
           sh 'cat .env.production'
@@ -34,6 +34,31 @@ pipeline {
         dir('client') {
           sh 'docker build -t aueangpanit/ticketer-client:latest .'
           sh 'docker image push aueangpanit/ticketer-client:latest'
+        }
+      }
+    }
+
+    stage('Build service') {
+      steps {
+        dir('service/src/main/resources') {
+          sh 'rm application.properties'
+          writeFile file: 'application.properties', text: 'spring.jpa.hibernate.ddl-auto=update' + 
+            '\nspring.datasource.url=' + env.databaseUrl +
+            '\nspring.datasource.username=' + env.databaseUsername +
+            '\nspring.datasource.password=' + env.databasePassword +
+            '\njwt.secretkey=' + env.jwtSecretKey
+        }
+        dir('service') {
+          sh 'mvn install'
+        }
+      }
+    }
+
+    stage('Create service image and upload to Docker hub') {
+      steps {
+        dir('service') {
+          sh 'docker build --build-arg JAR_FILE=target/*.jar -t aueangpanit/ticketer-service:latest .'
+          sh 'docker image push aueangpanit/ticketer-service:latest'
         }
       }
     }
