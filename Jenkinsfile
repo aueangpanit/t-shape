@@ -7,7 +7,7 @@ pipeline {
         dir('client') {
           writeFile file: '.env.production', text: 'some text'
           sh 'ls -l .env.production'
-          sh 'cat groovy1.txt'
+          sh 'cat .env.production'
           // sh "sudo npm install"
           // sh "sudo npm run build"
         }
