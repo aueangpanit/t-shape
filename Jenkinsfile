@@ -13,8 +13,8 @@ pipeline {
   stages {
     stage('Login to Dockerhub') {
       steps {
-        sh 'echo "$dockerhubPassword" | docker login --username ' + env.dockerhubUsername + ' --password-stdin'
         sh 'sudo usermod -a -G docker jenkins'
+        sh 'echo "$dockerhubPassword" | docker login --username ' + env.dockerhubUsername + ' --password-stdin'
       }
     }
 
