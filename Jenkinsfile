@@ -1,17 +1,24 @@
 pipeline {
   agent any
+
+  triggers { 
+  
+  }
   
   environment {
-    REACT_APP_SERVICE_URL = credentials('REACT_APP_SERVICE_URL')
-    databaseUrl = credentials('databaseUrl')
-    databaseUsername = credentials('databaseUsername')
-    databasePassword = credentials('databasePassword')
-    jwtSecretKey = credentials('jwtSecretKey')
-    dockerhubUsername = credentials('dockerhubUsername')
-    dockerhubPassword = credentials('dockerhubPassword')
+    REACT_APP_SERVICE_URL = credentials(env.BRANCH_NAME + '_REACT_APP_SERVICE_URL')
+    databaseUrl = credentials(env.BRANCH_NAME + '_databaseUrl')
+    databaseUsername = credentials(env.BRANCH_NAME + '_databaseUsername')
+    databasePassword = credentials(env.BRANCH_NAME + '_databasePassword')
+    jwtSecretKey = credentials(env.BRANCH_NAME + '_jwtSecretKey')
+    dockerhubUsername = credentials(env.BRANCH_NAME + '_dockerhubUsername')
+    dockerhubPassword = credentials(env.BRANCH_NAME + '_dockerhubPassword')
   }
   
   stages {
+    when {
+        expression { env.BRANCH_NAME == 'main' }
+    }
     stage('Login to Dockerhub') {
       steps {
         sh 'echo "$dockerhubPassword" | docker login --username ' + env.dockerhubUsername + ' --password-stdin'
@@ -22,7 +29,6 @@ pipeline {
       steps {
         dir('client') {
           writeFile file: '.env.production', text: 'REACT_APP_SERVICE_URL=' + env.REACT_APP_SERVICE_URL
-          sh 'cat .env.production'
           sh 'npm install'
           sh 'npm run build'
         }
