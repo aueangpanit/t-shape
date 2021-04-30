@@ -11,6 +11,12 @@ pipeline {
   }
   
   stages {
+    stage('Login to Dockerhub') {
+      steps {
+        sh 'docker login -u ' + env.dockerhubUsername + ' -p ' + env.dockerhubPassword
+      }
+    }
+
     stage('Build client') {
       steps {
         echo 'building client...'
@@ -22,11 +28,11 @@ pipeline {
         }
       }
     }
+    
     stage('Create client Docker image and upload to docker hub') {
       steps {
         dir('client') {
           sh 'docker build -t ticketer-client:latest .'
-          sh 'docker login -u ' + env.dockerhubUsername + ' -p ' + env.dockerhubPassword
           sh 'docker image push aueangpanit/ticketer-client:latest'
         }
       }
