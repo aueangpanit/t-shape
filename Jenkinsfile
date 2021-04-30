@@ -32,7 +32,7 @@ pipeline {
     stage('Create client Docker image and upload to docker hub') {
       steps {
         dir('client') {
-          sh 'docker build -t ticketer-client:latest .'
+          sh 'docker build -t aueangpanit/ticketer-client:latest .'
           sh 'docker image push aueangpanit/ticketer-client:latest'
         }
       }
