@@ -90,7 +90,7 @@ module "ticketer-jenkins" {
   name           = "ticketer-jenkins"
   security_group = module.ticketer-security-group.id
   subnet_id      = module.ticketer-public-subnet-1.id
-  instance_type  = "t3.small"
+  instance_type  = "t2.medium"
 }
 
 module "ticketer-web" {
