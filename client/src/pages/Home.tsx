@@ -98,7 +98,7 @@ export const Home = () => {
         <TicketFilter onFinish={filterTickets} />
         <Tabs defaultActiveKey="open">
           <Tabs.TabPane tab="Open Tickets" key="open">
-            <TicketsContainer direction="vertical">
+            <TicketsContainer size={[16, 16]} wrap>
               {openTickets.map((ticket, i) => (
                 <TicketCard
                   key={i}
@@ -111,7 +111,7 @@ export const Home = () => {
             </TicketsContainer>
           </Tabs.TabPane>
           <Tabs.TabPane tab="Closed Tickets" key="close">
-            <TicketsContainer direction="vertical">
+            <TicketsContainer size={[16, 16]} wrap>
               {doneTickets.map((ticket, i) => (
                 <TicketCard
                   key={i}
