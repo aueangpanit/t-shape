@@ -1,9 +1,5 @@
 pipeline {
   agent any
-
-  triggers { 
-  
-  }
   
   environment {
     REACT_APP_SERVICE_URL = credentials('${BRANCH_NAME}_REACT_APP_SERVICE_URL')
