@@ -90,7 +90,7 @@ module "ticketer-jenkins" {
   name           = "ticketer-jenkins"
   security_group = module.ticketer-security-group.id
   subnet_id      = module.ticketer-public-subnet-1.id
-  instance_type  = "t3.small"
+  instance_type  = "t2.medium"
 }
 
 module "ticketer-web" {
@@ -110,6 +110,14 @@ resource "aws_db_subnet_group" "ticketer-rds-subnet-group" {
   }
 }
 
+module "ticketer-rds-dev" {
+  source            = "./RDS"
+  name              = "ticketer-rds-dev"
+  master_username   = var.rds_username_dev
+  master_password   = var.rds_password_dev
+  subnet_group_name = aws_db_subnet_group.ticketer-rds-subnet-group.name
+}
+
 module "ticketer-rds" {
   source            = "./RDS"
   name              = "ticketer-rds"
@@ -117,3 +125,4 @@ module "ticketer-rds" {
   master_password   = var.rds_password
   subnet_group_name = aws_db_subnet_group.ticketer-rds-subnet-group.name
 }
+
