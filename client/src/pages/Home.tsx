@@ -34,11 +34,11 @@ export const Home = () => {
   const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([])
 
   useEffect(() => {
-    if (!users) {
+    if (!users.length) {
       dispatch(fetchUsers())
     }
 
-    if (!tickets) {
+    if (!tickets.length) {
       dispatch(fetchTickets())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
