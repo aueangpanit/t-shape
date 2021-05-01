@@ -110,6 +110,14 @@ resource "aws_db_subnet_group" "ticketer-rds-subnet-group" {
   }
 }
 
+module "ticketer-rds-dev" {
+  source            = "./RDS"
+  name              = "ticketer-rds-dev"
+  master_username   = var.rds_username_dev
+  master_password   = var.rds_password_dev
+  subnet_group_name = aws_db_subnet_group.ticketer-rds-subnet-group.name
+}
+
 module "ticketer-rds" {
   source            = "./RDS"
   name              = "ticketer-rds"
@@ -117,3 +125,4 @@ module "ticketer-rds" {
   master_password   = var.rds_password
   subnet_group_name = aws_db_subnet_group.ticketer-rds-subnet-group.name
 }
+
