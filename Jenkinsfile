@@ -2,13 +2,13 @@ pipeline {
   agent any
   
   environment {
-    // REACT_APP_SERVICE_URL = credentials('${BRANCH_NAME}_REACT_APP_SERVICE_URL')
-    // databaseUrl = credentials('${BRANCH_NAME}_databaseUrl')
-    // databaseUsername = credentials('${BRANCH_NAME}_databaseUsername')
-    // databasePassword = credentials('${BRANCH_NAME}_databasePassword')
-    // jwtSecretKey = credentials('${BRANCH_NAME}_jwtSecretKey')
-    // dockerhubUsername = credentials('${BRANCH_NAME}_dockerhubUsername')
-    // dockerhubPassword = credentials('${BRANCH_NAME}_dockerhubPassword')
+    REACT_APP_SERVICE_URL = evaluate('${env.BRANCH_NAME}_REACT_APP_SERVICE_URL')
+    databaseUrl = evaluate('${env.BRANCH_NAME}_databaseUrl')
+    databaseUsername = evaluate('${env.BRANCH_NAME}_databaseUsername')
+    databasePassword = evaluate('${env.BRANCH_NAME}_databasePassword')
+    jwtSecretKey = evaluate('${env.BRANCH_NAME}_jwtSecretKey')
+    dockerhubUsername = evaluate('${env.BRANCH_NAME}_dockerhubUsername')
+    dockerhubPassword = evaluate('${env.BRANCH_NAME}_dockerhubPassword')
     devServerUrl = credentials('devServerUrl')
   }
   
@@ -18,8 +18,7 @@ pipeline {
         expression { env.BRANCH_NAME == 'dev' }
       }
       steps {
-        sh 'echo ' + env.BRANCH_NAME
-        sh 'ssh ubuntu@' + env.devServerUrl
+        sh 'ssh -tt ubuntu@' + env.devServerUrl
       }
     }
 
