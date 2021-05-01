@@ -13,15 +13,31 @@ pipeline {
     jwtSecretKey = credentials(env.BRANCH_NAME + '_jwtSecretKey')
     dockerhubUsername = credentials(env.BRANCH_NAME + '_dockerhubUsername')
     dockerhubPassword = credentials(env.BRANCH_NAME + '_dockerhubPassword')
+    devServerUrl = credentials('devServerUrl')
   }
   
   stages {
-    when {
-        expression { env.BRANCH_NAME == 'main' }
+    stage('ssh to dev server') {
+      when {
+        expression { env.BRANCH_NAME == 'dev' }
+      }
+      steps {
+        sh 'ssh ubuntu@' + env.devServerUrl
+      }
     }
+
     stage('Login to Dockerhub') {
       steps {
-        sh 'echo "$dockerhubPassword" | docker login --username ' + env.dockerhubUsername + ' --password-stdin'
+        sh 'docker login --username ' + env.dockerhubUsername + ' --password ' + env.dockerhubPassword
+      }
+    }
+
+    stage('Exit from dev server') {
+       when {
+        expression { env.BRANCH_NAME == 'dev' }
+      }
+      steps {
+        sh 'exit'
       }
     }
 
@@ -38,8 +54,8 @@ pipeline {
     stage('Create client Docker image and upload to docker hub') {
       steps {
         dir('client') {
-          sh 'docker build -t aueangpanit/ticketer-client:latest .'
-          sh 'docker image push aueangpanit/ticketer-client:latest'
+          sh 'docker build -t aueangpanit/' + env.BRANCH_NAME + '-ticketer-client:latest .'
+          sh 'docker image push aueangpanit/' + env.BRANCH_NAME + '-ticketer-client:latest'
         }
       }
     }
@@ -63,8 +79,8 @@ pipeline {
     stage('Create service image and upload to Docker hub') {
       steps {
         dir('service') {
-          sh 'docker build --build-arg JAR_FILE=target/*.jar -t aueangpanit/ticketer-service:latest .'
-          sh 'docker image push aueangpanit/ticketer-service:latest'
+          sh 'docker build --build-arg JAR_FILE=target/*.jar -t aueangpanit/' + env.BRANCH_NAME + '-ticketer-service:latest .'
+          sh 'docker image push aueangpanit/' + env.BRANCH_NAME + '-ticketer-service:latest'
         }
       }
     }
