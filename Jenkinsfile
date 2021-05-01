@@ -2,13 +2,13 @@ pipeline {
   agent any
   
   environment {
-    REACT_APP_SERVICE_URL = evaluate('${env.BRANCH_NAME}_REACT_APP_SERVICE_URL')
-    databaseUrl = evaluate('${env.BRANCH_NAME}_databaseUrl')
-    databaseUsername = evaluate('${env.BRANCH_NAME}_databaseUsername')
-    databasePassword = evaluate('${env.BRANCH_NAME}_databasePassword')
-    jwtSecretKey = evaluate('${env.BRANCH_NAME}_jwtSecretKey')
-    dockerhubUsername = evaluate('${env.BRANCH_NAME}_dockerhubUsername')
-    dockerhubPassword = evaluate('${env.BRANCH_NAME}_dockerhubPassword')
+    REACT_APP_SERVICE_URL = evaluate(env.BRANCH_NAME + '_REACT_APP_SERVICE_URL')
+    databaseUrl = evaluate(env.BRANCH_NAME + '_databaseUrl')
+    databaseUsername = evaluate(env.BRANCH_NAME + '_databaseUsername')
+    databasePassword = evaluate(env.BRANCH_NAME + '_databasePassword')
+    jwtSecretKey = evaluate(env.BRANCH_NAME + '_jwtSecretKey')
+    dockerhubUsername = evaluate(env.BRANCH_NAME + '_dockerhubUsername')
+    dockerhubPassword = evaluate(env.BRANCH_NAME + '_dockerhubPassword')
     devServerUrl = credentials('devServerUrl')
   }
   
