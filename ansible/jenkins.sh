@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Installing Jenkins..."
 if type apt > /dev/null; then
     pkg_mgr=apt

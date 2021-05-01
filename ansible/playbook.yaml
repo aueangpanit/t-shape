@@ -8,18 +8,11 @@
         state: latest
         update_cache: true
 
-# - hosts: web
-#   become: true
-#   tasks:
-#     - name: 'Install nginx'
-#       apt:
-#         name: nginx
-#         state: latest
-#         update_cache: true
-#     - name: 'Check if nginx is running'
-#       service:
-#         name: nginx
-#         state: started
+- hosts: web
+  become: true
+  tasks:
+    - name: 'Install Docker'
+      script: install_docker.sh
 
 - hosts: jenkins
   become: true
@@ -34,10 +27,22 @@
         name: npm
         state: latest
         update_cache: true
+    - name: 'Install Maven'
+      apt:
+        name: maven
+        state: latest
+        update_cache: true
+    - name: 'Install openjdk-8-jdk'
+      apt:
+        name: openjdk-8-jdk
+        state: latest
+        update_cache: true
     - name: 'Install Docker'
       script: install_docker.sh
+    - name: 'Transfer ssh keys to jenkins server'
+      copy: src=/home/ubuntu/.ssh/id_rsa dest=/home/jenkins/.ssh/id_rsa mode=0777
     - name: 'Transfer jenkins.sh script'
-      copy: src=./jenkins.sh dest=/home/ mode=0777 
+      copy: src=./jenkins.sh dest=/home/ mode=0777
     - name: 'Install Jenkins'
       script: install_jenkins.sh
   
