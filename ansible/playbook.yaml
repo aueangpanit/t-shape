@@ -39,8 +39,8 @@
         update_cache: true
     - name: 'Install Docker'
       script: install_docker.sh
-    - name: 'Transfer ssh keys to jenkins server'
-      copy: src=/home/ubuntu/.ssh/id_rsa dest=/home/jenkins/.ssh/id_rsa mode=0777
+    # - name: 'Transfer ssh keys to jenkins server'
+    #   copy: src=/home/ubuntu/.ssh/id_rsa dest=/home/jenkins/.ssh/id_rsa mode=0777
     - name: 'Transfer jenkins.sh script'
       copy: src=./jenkins.sh dest=/home/ mode=0777
     - name: 'Install Jenkins'
