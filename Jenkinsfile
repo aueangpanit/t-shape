@@ -18,7 +18,7 @@ pipeline {
         expression { env.BRANCH_NAME == 'dev' }
       }
       steps {
-        sh 'echo' + env.BRANCH_NAME
+        sh 'echo ' + env.BRANCH_NAME
         sh 'ssh ubuntu@' + env.devServerUrl
       }
     }
