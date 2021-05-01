@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: ticketer
-          image: "aueangpanit/ticketer-service:latest"
+          image: 'aueangpanit/main-ticketer-service:latest'
           ports:
             - name: http
               containerPort: 8080

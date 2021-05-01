@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: "aueangpanit/ticketer-client:latest"
+          image: 'aueangpanit/main-ticketer-client:latest'
           lifecycle:
             preStop:
               exec:
-                command: ["/usr/sbin/nginx","-s","quit"]
+                command: ['/usr/sbin/nginx', '-s', 'quit']
