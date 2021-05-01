@@ -12,28 +12,14 @@ pipeline {
     devServerUrl = credentials('devServerUrl')
   }
   
-  stages {
-    stage('ssh to dev server') {
-      when {
-        expression { env.BRANCH_NAME == 'dev' }
-      }
-      steps {
-        sh 'ssh -tt ubuntu@' + env.devServerUrl
-      }
-    }
+// when {
+//         expression { env.BRANCH_NAME == 'dev' }
+//       }
 
+  stages {
     stage('Login to Dockerhub') {
       steps {
         sh 'docker login --username ' + env.dockerhubUsername + ' --password ' + env.dockerhubPassword
-      }
-    }
-
-    stage('Exit from dev server') {
-       when {
-        expression { env.BRANCH_NAME == 'dev' }
-      }
-      steps {
-        sh 'exit'
       }
     }
 
